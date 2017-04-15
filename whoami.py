@@ -7,7 +7,6 @@ import platform
 import uptime
 import sheets
 
-CLIENT_SECRET_FILE = 'client_secret.json'
 # this is the url i am using to get the public IP
 IP_WEBSITE = "myip.xname.org:80"
 
