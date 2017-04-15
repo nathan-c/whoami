@@ -69,10 +69,9 @@ def main():
 
 
 if __name__ == '__main__':
-    while True:
-        try:
-            main()
-            time.sleep(1)
-        except Exception as err:
-            print("Insert row failed. {0}".format(err))
-            time.sleep(1)
+    try:
+        main()
+        time.sleep(1)
+    except Exception as err:
+        print("Insert row failed. {0}".format(err))
+        time.sleep(1)
