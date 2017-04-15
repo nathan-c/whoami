@@ -69,7 +69,7 @@ def main():
         '%d/%m/%Y'), loclip, publip, str(uptim)]
 
     entry = sheets.append_row(SPREADSHEET_KEY, results)
-    if isinstance(entry, gdata.spreadsheet.SpreadsheetsList):
+    if entry and entry['updates']['updatedRows'] > 0:
         print("Insert row succeeded.")
     else:
         return 0
