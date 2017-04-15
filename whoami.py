@@ -6,8 +6,6 @@ import httplib
 import platform
 import uptime
 import sheets
-import gdata.spreadsheet.service
-import gdata.docs.client
 
 CLIENT_SECRET_FILE = 'client_secret.json'
 # this is the url i am using to get the public IP
