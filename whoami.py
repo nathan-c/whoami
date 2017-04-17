@@ -8,9 +8,15 @@ import time
 import socket
 import httplib
 import platform
+import urllib2
+import logging
+
 import uptime
 import sheets
 
+
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+logging.info('Starting')
 # this is the url i am using to get the public IP
 IP_WEBSITE = "myip.xname.org:80"
 
@@ -53,6 +59,31 @@ def gethostname():
     return socket.gethostbyaddr(socket.gethostname())[0]
 
 
+def write_to_sheet(results):
+
+    try:
+        entry = sheets.append_row(SPREADSHEET_KEY, results)
+    except Exception as err:
+        logging.error("Insert row failed. {0}".format(results))
+        raise err
+
+    if entry and entry['updates']['updatedRows'] > 0:
+        logging.info("Insert row succeeded.")
+    else:
+        return 0
+
+
+def wait_for_internet_connection():
+    start = time.time()
+    while True and time.time() - start < 10:
+        try:
+            response = urllib2.urlopen('http://216.58.213.110', timeout=1)
+            return True
+        except urllib2.URLError:
+            pass
+    return False
+
+
 def main():
     """ Get various bits of system info and publish to google sheet """
     platform_info = platform.platform()
@@ -63,16 +94,14 @@ def main():
 
     results = [platform_info, hostname, time.strftime('%H:%M:%S'), time.strftime(
         '%d/%m/%Y'), loclip, publip, str(uptim)]
-
-    entry = sheets.append_row(SPREADSHEET_KEY, results)
-    if entry and entry['updates']['updatedRows'] > 0:
-        print("Insert row succeeded.")
-    else:
-        return 0
+    return write_to_sheet(results)
 
 
 if __name__ == '__main__':
     try:
-        main()
+        if wait_for_internet_connection():
+            main()
+        else:
+            logging.error("No internet connection")
     except Exception as err:
-        print("Insert row failed. {0}".format(err))
+        logging.error("Insert row failed. {0}".format(err))
