@@ -7,6 +7,9 @@ from oauth2client import tools
 from oauth2client.file import Storage
 from oauth2client.service_account import ServiceAccountCredentials
 
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
 try:
     import argparse
     FLAGS = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
@@ -16,7 +19,7 @@ except ImportError:
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/sheets.googleapis.com-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets'
-CLIENT_SECRET_FILE = 'client_secret.json'
+CLIENT_SECRET_FILE = __location__ + '/client_secret.json'
 APPLICATION_NAME = 'whoami'
 
 

@@ -35,11 +35,7 @@ def getpubip():
     conn = httplib.HTTPConnection(IP_WEBSITE)
     conn.request("GET", "/")
     response = conn.getresponse()
-    message = response.status, response.reason
-    message = str(message)
-    # print message #print http responce for debugging
     ip_address = response.read()
-    # get rid of new line character (may not be necessary)
     ip_address = ip_address.replace("\n", "")
     return ip_address
 
