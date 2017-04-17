@@ -5,6 +5,7 @@ from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
+from oauth2client.service_account import ServiceAccountCredentials
 
 try:
     import argparse
@@ -45,6 +46,12 @@ def get_credentials():
     return credentials
 
 
+def get_credentials_server():
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        CLIENT_SECRET_FILE, scopes=SCOPES)
+    return credentials
+
+
 def append_row(spreadsheet_id, value_range_body, start_range='A1', value_input_option='RAW'):
     """
     BEFORE RUNNING:
@@ -63,7 +70,7 @@ def append_row(spreadsheet_id, value_range_body, start_range='A1', value_input_o
                     'INPUT_VALUE_OPTION_UNSPECIFIED', 'RAW', 'USER_ENTERED'
     value_range_body -- Data row to add (as Dict)
     """
-    credentials = get_credentials()
+    credentials = get_credentials_server()
     value = {'values': [value_range_body]}
     service = discovery.build('sheets', 'v4', credentials=credentials)
 
