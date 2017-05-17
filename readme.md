@@ -2,5 +2,5 @@ Python script that will write various bits of system information to a google she
 
 Edit the sheet key to change the sheet written to
 
-Add a client_secret.json file to same location to configure OAuth authentication:
+Add a client_secret.json file to same location containing a service account key JSON:
 https://developers.google.com/identity/protocols/OAuth2InstalledApp
