@@ -6,9 +6,10 @@ and populate a row in a google doc with it.
 from __future__ import print_function
 import time
 import socket
-import httplib
+import http.client as httplib
 import platform
-import urllib2
+import urllib.request as urllib2
+from urllib.error import URLError
 import logging
 
 import uptime
@@ -41,7 +42,7 @@ def getpubip():
     conn = httplib.HTTPConnection(IP_WEBSITE)
     conn.request("GET", "/")
     response = conn.getresponse()
-    ip_address = response.read()
+    ip_address = response.read().decode('utf-8')
     ip_address = ip_address.replace("\n", "")
     return ip_address
 
@@ -79,7 +80,7 @@ def wait_for_internet_connection():
         try:
             response = urllib2.urlopen('http://216.58.213.110', timeout=1)
             return True
-        except urllib2.URLError:
+        except URLError:
             pass
     return False
 
